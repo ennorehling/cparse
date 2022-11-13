@@ -35,7 +35,7 @@ packToken Assign(const packToken& left, const packToken& right, evaluationData* 
   } else if (key->type & NUM) {
     if (origin->type == LIST) {
       TokenList& list = origin.asList();
-      size_t index = key.asInt();
+      size_t index = static_cast<size_t>(key.asInt());
       list[index] = right;
     } else {
       throw std::domain_error("Left operand of assignment is not a list!");
@@ -263,7 +263,7 @@ packToken StringOnNumberOperation(const packToken& p_left, const packToken& p_ri
     ss << left << p_right.asDouble();
     return ss.str();
   } else if (op == "[]") {
-    int64_t index = p_right.asInt();
+    ptrdiff_t index = static_cast<ptrdiff_t>(p_right.asInt());
 
     if (index < 0) {
       // Reverse index, i.e. list[-1] = list[list.size()-1]
@@ -297,7 +297,7 @@ packToken ListOnNumberOperation(const packToken& p_left, const packToken& p_righ
   TokenList left = p_left.asList();
 
   if (data->op == "[]") {
-    int64_t index = p_right.asInt();
+    ptrdiff_t index = static_cast<ptrdiff_t>(p_right.asInt());
 
     if (index < 0) {
       // Reverse index, i.e. list[-1] = list[list.size()-1]
