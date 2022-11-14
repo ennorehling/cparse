@@ -1,0 +1,17 @@
+name: continuous-integration
+on: [push, pull_request]
+
+jobs:
+  tests:
+    strategy:
+      matrix:
+        runs-on: 
+            - ubuntu-latest
+            - macos-latest
+    steps:
+      - name: Git Checkout
+        uses: actions/checkout@v2
+        with:
+          submodules: true
+      - name: Build and Test
+        run: make test
