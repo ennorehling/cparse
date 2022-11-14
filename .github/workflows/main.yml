@@ -5,9 +5,10 @@ jobs:
   tests:
     strategy:
       matrix:
-        runs-on: 
+        os: 
             - ubuntu-latest
             - macos-latest
+    runs-on: ${{ matrix.os }}
     steps:
       - name: Git Checkout
         uses: actions/checkout@v2
