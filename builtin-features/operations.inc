@@ -103,7 +103,12 @@ packToken MapIndex(const packToken& p_left, const packToken& p_right, evaluation
 packToken TypeSpecificFunction(const packToken& p_left, const packToken& p_right, evaluationData* data) {
   if (p_left->type == MAP) throw Operation::Reject();
 
-  TokenMap& attr_map = calculator::type_attribute_map()[p_left->type];
+  auto it = calculator::type_attribute_map().find(p_left->type);
+  if (it == calculator::type_attribute_map().end()) {
+    throw undefined_operation(data->op, p_left, p_right);
+  }
+
+  TokenMap& attr_map = it->second;
   std::string& key = p_right.asString();
 
   packToken* attr = attr_map.find(key);
